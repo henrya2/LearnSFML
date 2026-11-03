@@ -1,0 +1,17 @@
+# CMake build trees
+/build/
+/build-*/
+/cmake-build-*/
+
+# Compiled games are written to bin/<platform>/<config> at build time.
+# Keep only the .gitkeep placeholders that document that layout.
+/bin/**
+!/bin/**/
+!/bin/**/.gitkeep
+
+# Editor / OS noise
+/.vs/
+/.vscode/
+*.user
+.DS_Store
+Thumbs.db
