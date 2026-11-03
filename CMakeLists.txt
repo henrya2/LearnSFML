@@ -66,4 +66,5 @@ add_subdirectory(thirdparty/SFML)
 # Games
 # ---------------------------------------------------------------------------
 include(cmake/Game.cmake)   # defines learnsfml_add_game(<name>)
+add_subdirectory(common)     # shared static library (learnsfml::common)
 add_subdirectory(games)      # auto-discovers every games/<name> folder

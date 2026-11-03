@@ -1,7 +1,7 @@
 # learnsfml_add_game(<name>)
 #
 # Builds games/<name>/src/** as an executable, links it to SFML and the shared
-# asset-path helper, and writes the binary to bin/<platform>/<config>.
+# common library, and writes the binary to bin/<platform>/<config>.
 function(learnsfml_add_game game_name)
     file(GLOB_RECURSE _sources CONFIGURE_DEPENDS
          "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
@@ -16,8 +16,8 @@ function(learnsfml_add_game game_name)
 
     add_executable(${game_name} ${_sources})
 
-    target_link_libraries(${game_name} PRIVATE SFML::Graphics)
-    target_include_directories(${game_name} PRIVATE "${CMAKE_SOURCE_DIR}/include")
+    # common exports its own public include dirs, so games only link the module.
+    target_link_libraries(${game_name} PRIVATE SFML::Graphics learnsfml::common)
 
     set_target_properties(${game_name} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${LEARNSFML_BIN_DIR}")

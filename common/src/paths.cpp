@@ -1,13 +1,8 @@
-#pragma once
+#include <learnsfml/paths.hpp>
 
-// Asset paths are resolved relative to the running executable, never relative
-// to the process working directory. The build places every game at
-//     <repo>/bin/<platform>/<config>/<game>.exe
-// while assets live at <repo>/assets, so walking up from the exe finds them.
-
-#include <filesystem>
 #include <stdexcept>
 #include <string>
+#include <system_error>
 
 #if defined(_WIN32)
 #   ifndef WIN32_LEAN_AND_MEAN
@@ -27,8 +22,7 @@
 
 namespace learnsfml {
 
-// Full path of the currently running executable.
-inline std::filesystem::path executable_path()
+std::filesystem::path executable_path()
 {
 #if defined(_WIN32)
     std::wstring buffer(MAX_PATH, L'\0');
@@ -63,14 +57,12 @@ inline std::filesystem::path executable_path()
 #endif
 }
 
-inline std::filesystem::path executable_dir()
+std::filesystem::path executable_dir()
 {
     return executable_path().parent_path();
 }
 
-// Walk up from the executable until an "assets" directory is found; fall back
-// to the known bin/<platform>/<config> depth if none exists yet.
-inline std::filesystem::path assets_dir()
+std::filesystem::path assets_dir()
 {
     std::filesystem::path dir = executable_dir();
     for (int depth = 0; depth < 8; ++depth)
@@ -87,9 +79,7 @@ inline std::filesystem::path assets_dir()
     return executable_dir() / ".." / ".." / ".." / "assets";
 }
 
-// SFML 3 takes std::filesystem::path, so this feeds loadFromFile directly:
-//     texture.loadFromFile(learnsfml::asset_path("player.png"));
-inline std::filesystem::path asset_path(const std::filesystem::path& relative)
+std::filesystem::path asset_path(const std::filesystem::path& relative)
 {
     return assets_dir() / relative;
 }
