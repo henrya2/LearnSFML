@@ -1,1 +1,2 @@
-# Game-local headers belong in this include/ folder; sources stay in src/.
+# Public headers (.h/.hpp) belong in this include/ folder.
+# Private headers go in src/ alongside the .cpp files.

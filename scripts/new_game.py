@@ -6,8 +6,8 @@ Usage:
 
 The game is picked up automatically by CMake (games/CMakeLists.txt globs with
 CONFIGURE_DEPENDS), so a new folder needs no CMake edits -- just reconfigure
-or build again. Headers go in include/, sources in src/. Edit the files in
-scripts/templates/ to change the skeleton.
+or build again. Public headers go in include/, private headers and .cpp files
+in src/. Edit the files in scripts/templates/ to change the skeleton.
 """
 
 from __future__ import annotations
@@ -60,8 +60,8 @@ def main(argv: list[str]) -> int:
 
     print(f"Created games/{name}/")
     print(f"  games/{name}/CMakeLists.txt")
-    print(f"  games/{name}/include/  (put .h/.hpp headers here)")
-    print(f"  games/{name}/src/main.cpp")
+    print(f"  games/{name}/include/  (public .h/.hpp headers)")
+    print(f"  games/{name}/src/      (.cpp + private .h/.hpp headers)")
     print()
     print("Build it with e.g.:")
     print("  cmake -S . -B build -A x64")
