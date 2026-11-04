@@ -1,12 +1,14 @@
 # learnsfml_add_game(<name>)
 #
-# Builds games/<name>/src/** as an executable, links it to SFML and the shared
-# common library, and writes the binary to bin/<platform>/<config>.
+# Builds games/<name>/src/**.cpp as an executable (headers live in include/),
+# links it to SFML and the shared common library, and writes the binary to
+# bin/<platform>/<config>.
 function(learnsfml_add_game game_name)
     file(GLOB_RECURSE _sources CONFIGURE_DEPENDS
-         "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
-         "${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp"
-         "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
+         "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+    file(GLOB_RECURSE _headers CONFIGURE_DEPENDS
+         "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
+         "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
 
     if(NOT _sources)
         message(FATAL_ERROR
@@ -14,9 +16,11 @@ function(learnsfml_add_game game_name)
             "${CMAKE_CURRENT_SOURCE_DIR}/src")
     endif()
 
-    add_executable(${game_name} ${_sources})
+    add_executable(${game_name} ${_sources} ${_headers})
 
-    # common exports its own public include dirs, so games only link the module.
+    # Game headers come from include/; common exports its own public include dirs.
+    target_include_directories(${game_name} PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(${game_name} PRIVATE SFML::Graphics learnsfml::common)
 
     set_target_properties(${game_name} PROPERTIES

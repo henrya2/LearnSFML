@@ -6,7 +6,8 @@ Usage:
 
 The game is picked up automatically by CMake (games/CMakeLists.txt globs with
 CONFIGURE_DEPENDS), so a new folder needs no CMake edits -- just reconfigure
-or build again. Edit the files in scripts/templates/ to change the skeleton.
+or build again. Headers go in include/, sources in src/. Edit the files in
+scripts/templates/ to change the skeleton.
 """
 
 from __future__ import annotations
@@ -25,6 +26,7 @@ VALID_NAME = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 # (template file, destination relative to games/<name>)
 FILES = [
     ("CMakeLists.txt.in", "CMakeLists.txt"),
+    ("gitkeep.in", "include/.gitkeep"),
     ("main.cpp.in", "src/main.cpp"),
 ]
 
@@ -58,6 +60,7 @@ def main(argv: list[str]) -> int:
 
     print(f"Created games/{name}/")
     print(f"  games/{name}/CMakeLists.txt")
+    print(f"  games/{name}/include/  (put .h/.hpp headers here)")
     print(f"  games/{name}/src/main.cpp")
     print()
     print("Build it with e.g.:")

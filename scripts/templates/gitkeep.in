@@ -1,0 +1,1 @@
+# Game-local headers belong in this include/ folder; sources stay in src/.
